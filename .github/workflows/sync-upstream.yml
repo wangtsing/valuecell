@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 步骤2：配置Git用户信息（必须步骤）
+      # 步骤2：配置Git用户信息
       - name: Setup Git
         run: |
           git config user.name "GitHub Actions Bot"
@@ -24,14 +24,17 @@ jobs:
       # 步骤3：从上游仓库获取更新并合并
       - name: Sync Upstream
         run: |
-          # 添加上游仓库为远程地址
-          git remote add upstream https://github.com/ValueCell-ai/valuecell.git
-          # 获取上游仓库的更新
+          # 检查是否已存在 upstream 远程
+          if ! git remote | grep -q upstream; then
+            git remote add upstream https://github.com/ValueCell-ai/valuecell.git
+          fi
+          
           git fetch upstream
           # 将上游仓库的main分支合并到本地的main分支
-          # 使用 --rebase 参数可以保持历史线性，这里使用合并
-          # git merge upstream/main
           git merge upstream/main --allow-unrelated-histories
-          # 将合并后的结果推送到你的Fork仓库（origin）
+          
+          # 如果有冲突，设置合并策略
+          git config pull.rebase false
+          
           git push origin main
       
