@@ -31,7 +31,7 @@ jobs:
           
           git fetch upstream
           # 将上游仓库的main分支合并到本地的main分支
-          git merge -X theirs upstream/main          
+          git merge -X ours upstream/main          
           # 如果有冲突，设置合并策略
           git config pull.rebase false
           
