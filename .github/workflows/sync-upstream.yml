@@ -30,7 +30,8 @@ jobs:
           git fetch upstream
           # 将上游仓库的main分支合并到本地的main分支
           # 使用 --rebase 参数可以保持历史线性，这里使用合并
-          git merge upstream/main
+          # git merge upstream/main
+          git merge upstream/main --allow-unrelated-histories
           # 将合并后的结果推送到你的Fork仓库（origin）
           git push origin main
       
